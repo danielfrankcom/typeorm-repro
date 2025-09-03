@@ -18,7 +18,7 @@ npm test
 - Vet query returns 2 specialties
 
 ```bash
-> npm install typeorm@0.3.25 --no-save && npm test                                                      (dev/frankcom/typeorm-update|●8✚4…1)
+> npm install typeorm@0.3.25 --no-save && npm test
 
 changed 1 package, and audited 140 packages in 1s
 
@@ -39,6 +39,13 @@ query: SELECT DISTINCT "distinctAlias"."Vet_id" AS "ids_Vet_id" FROM (SELECT "Ve
 query: SELECT "Vet"."id" AS "Vet_id", "Vet"."name" AS "Vet_name", "Vet__Vet_specialties"."name" AS "Vet__Vet_specialties_name" FROM "vet" "Vet" LEFT JOIN "vet_specialty" "Vet_Vet__Vet_specialties" ON "Vet_Vet__Vet_specialties"."vet_id"="Vet"."id" LEFT JOIN "specialty" "Vet__Vet_specialties" ON "Vet__Vet_specialties"."name"="Vet_Vet__Vet_specialties"."specialty_name" WHERE ( (("Vet"."id" = $1)) ) AND ( "Vet"."id" IN (3) ) -- PARAMETERS: [3]
 Vet specialties count: 2
 Expected: 2, Actual: 2
+
+> psql -d postgres -c "SELECT * FROM vet_specialty"
+ id | vet_id | specialty_name
+----+--------+----------------
+  1 |      1 | dogs
+  2 |      1 | cats
+(2 rows)
 ```
 
 ## Actual Behavior (>=0.3.26)
@@ -47,7 +54,7 @@ Expected: 2, Actual: 2
 - Vet query returns 0 specialties
 
 ```bash
-> npm install typeorm@0.3.26 --no-save && npm test                                                      (dev/frankcom/typeorm-update|●8✚4…1)
+> npm install typeorm@0.3.26 --no-save && npm test
 
 changed 1 package, and audited 140 packages in 933ms
 
@@ -68,6 +75,13 @@ query: SELECT DISTINCT "distinctAlias"."Vet_id" AS "ids_Vet_id" FROM (SELECT "Ve
 query: SELECT "Vet"."id" AS "Vet_id", "Vet"."name" AS "Vet_name", "Vet__Vet_specialties"."name" AS "Vet__Vet_specialties_name" FROM "vet" "Vet" LEFT JOIN "vet_specialty" "Vet_Vet__Vet_specialties" ON "Vet_Vet__Vet_specialties"."vet_id"="Vet"."id" LEFT JOIN "specialty" "Vet__Vet_specialties" ON "Vet__Vet_specialties"."name"="Vet_Vet__Vet_specialties"."specialty_name" WHERE ( (("Vet"."id" = $1)) ) AND ( "Vet"."id" IN (2) ) -- PARAMETERS: [2]
 Vet specialties count: 0
 Expected: 2, Actual: 0
+
+> psql -d postgres -c "SELECT * FROM vet_specialty"
+ id | vet_id | specialty_name
+----+--------+----------------
+  1 |        |
+  2 |        |
+(2 rows)
 ```
 
 ## Other Notes
