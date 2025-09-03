@@ -30,13 +30,16 @@ found 0 vulnerabilities
 query: SELECT version()
 query: SELECT * FROM current_schema()
 query: SELECT "Specialty"."name" AS "Specialty_name" FROM "specialty" "Specialty" WHERE "Specialty"."name" IN ($1, $2) -- PARAMETERS: ["dogs","cats"]
+query: START TRANSACTION
+query: INSERT INTO "specialty"("name") VALUES ($1), ($2) -- PARAMETERS: ["dogs","cats"]
+query: COMMIT
 query: SELECT "Specialty"."name" AS "Specialty_name" FROM "specialty" "Specialty" WHERE "Specialty"."name" IN ($1, $2) -- PARAMETERS: ["dogs","cats"]
 query: START TRANSACTION
 query: INSERT INTO "vet"("name") VALUES ($1) RETURNING "id" -- PARAMETERS: ["Carlos Salazar"]
-query: INSERT INTO "vet_specialty"("vet_id", "specialty_name") VALUES ($1, $2), ($3, $4) -- PARAMETERS: [3,"dogs",3,"cats"]
+query: INSERT INTO "vet_specialty"("vet_id", "specialty_name") VALUES ($1, $2), ($3, $4) -- PARAMETERS: [1,"dogs",1,"cats"]
 query: COMMIT
-query: SELECT DISTINCT "distinctAlias"."Vet_id" AS "ids_Vet_id" FROM (SELECT "Vet"."id" AS "Vet_id", "Vet"."name" AS "Vet_name", "Vet__Vet_specialties"."name" AS "Vet__Vet_specialties_name" FROM "vet" "Vet" LEFT JOIN "vet_specialty" "Vet_Vet__Vet_specialties" ON "Vet_Vet__Vet_specialties"."vet_id"="Vet"."id" LEFT JOIN "specialty" "Vet__Vet_specialties" ON "Vet__Vet_specialties"."name"="Vet_Vet__Vet_specialties"."specialty_name" WHERE (("Vet"."id" = $1))) "distinctAlias" ORDER BY "Vet_id" ASC LIMIT 1 -- PARAMETERS: [3]
-query: SELECT "Vet"."id" AS "Vet_id", "Vet"."name" AS "Vet_name", "Vet__Vet_specialties"."name" AS "Vet__Vet_specialties_name" FROM "vet" "Vet" LEFT JOIN "vet_specialty" "Vet_Vet__Vet_specialties" ON "Vet_Vet__Vet_specialties"."vet_id"="Vet"."id" LEFT JOIN "specialty" "Vet__Vet_specialties" ON "Vet__Vet_specialties"."name"="Vet_Vet__Vet_specialties"."specialty_name" WHERE ( (("Vet"."id" = $1)) ) AND ( "Vet"."id" IN (3) ) -- PARAMETERS: [3]
+query: SELECT DISTINCT "distinctAlias"."Vet_id" AS "ids_Vet_id" FROM (SELECT "Vet"."id" AS "Vet_id", "Vet"."name" AS "Vet_name", "Vet__Vet_specialties"."name" AS "Vet__Vet_specialties_name" FROM "vet" "Vet" LEFT JOIN "vet_specialty" "Vet_Vet__Vet_specialties" ON "Vet_Vet__Vet_specialties"."vet_id"="Vet"."id" LEFT JOIN "specialty" "Vet__Vet_specialties" ON "Vet__Vet_specialties"."name"="Vet_Vet__Vet_specialties"."specialty_name" WHERE (("Vet"."id" = $1))) "distinctAlias" ORDER BY "Vet_id" ASC LIMIT 1 -- PARAMETERS: [1]
+query: SELECT "Vet"."id" AS "Vet_id", "Vet"."name" AS "Vet_name", "Vet__Vet_specialties"."name" AS "Vet__Vet_specialties_name" FROM "vet" "Vet" LEFT JOIN "vet_specialty" "Vet_Vet__Vet_specialties" ON "Vet_Vet__Vet_specialties"."vet_id"="Vet"."id" LEFT JOIN "specialty" "Vet__Vet_specialties" ON "Vet__Vet_specialties"."name"="Vet_Vet__Vet_specialties"."specialty_name" WHERE ( (("Vet"."id" = $1)) ) AND ( "Vet"."id" IN (1) ) -- PARAMETERS: [1]
 Vet specialties count: 2
 Expected: 2, Actual: 2
 
@@ -66,13 +69,16 @@ found 0 vulnerabilities
 query: SELECT version()
 query: SELECT * FROM current_schema()
 query: SELECT "Specialty"."name" AS "Specialty_name" FROM "specialty" "Specialty" WHERE "Specialty"."name" IN ($1, $2) -- PARAMETERS: ["dogs","cats"]
+query: START TRANSACTION
+query: INSERT INTO "specialty"("name") VALUES ($1), ($2) -- PARAMETERS: ["dogs","cats"]
+query: COMMIT
 query: SELECT "Specialty"."name" AS "Specialty_name" FROM "specialty" "Specialty" WHERE "Specialty"."name" IN ($1, $2) -- PARAMETERS: ["dogs","cats"]
 query: START TRANSACTION
 query: INSERT INTO "vet"("name") VALUES ($1) RETURNING "id" -- PARAMETERS: ["Carlos Salazar"]
 query: INSERT INTO "vet_specialty"("vet_id", "specialty_name") VALUES (DEFAULT, DEFAULT), (DEFAULT, DEFAULT) RETURNING "id"
 query: COMMIT
-query: SELECT DISTINCT "distinctAlias"."Vet_id" AS "ids_Vet_id" FROM (SELECT "Vet"."id" AS "Vet_id", "Vet"."name" AS "Vet_name", "Vet__Vet_specialties"."name" AS "Vet__Vet_specialties_name" FROM "vet" "Vet" LEFT JOIN "vet_specialty" "Vet_Vet__Vet_specialties" ON "Vet_Vet__Vet_specialties"."vet_id"="Vet"."id" LEFT JOIN "specialty" "Vet__Vet_specialties" ON "Vet__Vet_specialties"."name"="Vet_Vet__Vet_specialties"."specialty_name" WHERE (("Vet"."id" = $1))) "distinctAlias" ORDER BY "Vet_id" ASC LIMIT 1 -- PARAMETERS: [2]
-query: SELECT "Vet"."id" AS "Vet_id", "Vet"."name" AS "Vet_name", "Vet__Vet_specialties"."name" AS "Vet__Vet_specialties_name" FROM "vet" "Vet" LEFT JOIN "vet_specialty" "Vet_Vet__Vet_specialties" ON "Vet_Vet__Vet_specialties"."vet_id"="Vet"."id" LEFT JOIN "specialty" "Vet__Vet_specialties" ON "Vet__Vet_specialties"."name"="Vet_Vet__Vet_specialties"."specialty_name" WHERE ( (("Vet"."id" = $1)) ) AND ( "Vet"."id" IN (2) ) -- PARAMETERS: [2]
+query: SELECT DISTINCT "distinctAlias"."Vet_id" AS "ids_Vet_id" FROM (SELECT "Vet"."id" AS "Vet_id", "Vet"."name" AS "Vet_name", "Vet__Vet_specialties"."name" AS "Vet__Vet_specialties_name" FROM "vet" "Vet" LEFT JOIN "vet_specialty" "Vet_Vet__Vet_specialties" ON "Vet_Vet__Vet_specialties"."vet_id"="Vet"."id" LEFT JOIN "specialty" "Vet__Vet_specialties" ON "Vet__Vet_specialties"."name"="Vet_Vet__Vet_specialties"."specialty_name" WHERE (("Vet"."id" = $1))) "distinctAlias" ORDER BY "Vet_id" ASC LIMIT 1 -- PARAMETERS: [1]
+query: SELECT "Vet"."id" AS "Vet_id", "Vet"."name" AS "Vet_name", "Vet__Vet_specialties"."name" AS "Vet__Vet_specialties_name" FROM "vet" "Vet" LEFT JOIN "vet_specialty" "Vet_Vet__Vet_specialties" ON "Vet_Vet__Vet_specialties"."vet_id"="Vet"."id" LEFT JOIN "specialty" "Vet__Vet_specialties" ON "Vet__Vet_specialties"."name"="Vet_Vet__Vet_specialties"."specialty_name" WHERE ( (("Vet"."id" = $1)) ) AND ( "Vet"."id" IN (1) ) -- PARAMETERS: [1]
 Vet specialties count: 0
 Expected: 2, Actual: 0
 
